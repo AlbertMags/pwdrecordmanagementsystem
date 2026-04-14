@@ -1,0 +1,15 @@
+RewriteEngine On
+# This matches the subfolder name
+RewriteBase /PWD/public/
+
+# 1. Force remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [L,R=301]
+
+# 2. Skip existing files (CSS, Images, JS)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 3. Route everything to the public index.php
+# This maps /public/announcements to /public/index.php?page=announcements
+RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]

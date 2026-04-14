@@ -1,0 +1,23 @@
+RewriteEngine On
+RewriteBase /PWD/brgy_data/
+
+# 1. Force remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [L,R=301]
+
+# 2. FIXED: Specific Rule for Search Results (Routes through index.php to keep sidebar)
+# Maps /search/kaith to index.php?page=brgy_search_results&q=kaith
+RewriteRule ^search/([^/]+)$ index.php?page=brgy_search_results&q=$1 [L,QSA]
+
+# 3. Specific Rule for Viewing PWD Profile
+RewriteRule ^view_search_pwd/([0-9]+)$ index.php?page=view_search_pwd&id=$1 [L,QSA]
+
+# 4. Specific Rule for Printing ID
+RewriteRule ^print_id/([0-9]+)$ print_id.php?id=$1 [L,QSA]
+
+# 5. Do not rewrite if the file or folder actually exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 6. General Page Routing
+RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]

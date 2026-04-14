@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /PWD/pwduser/
+
+# Map dashboard -> index.php?page=pwd_dashboard
+RewriteRule ^dashboard$ index.php?page=pwd_dashboard [L,QSA]
+
+# Map manage_account -> index.php?page=manage_account
+RewriteRule ^manage_account$ index.php?page=manage_account [L,QSA]

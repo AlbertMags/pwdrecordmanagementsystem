@@ -1,0 +1,19 @@
+RewriteEngine On
+# Adjust this to match your folder path exactly
+RewriteBase /PWD/doctor/
+
+# 1. Force remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [L,R=301]
+
+# 2. Specific Rule for Doctor Search (if needed later)
+# Maps /doctor/search/name to index.php?page=search_results&q=name
+RewriteRule ^search/([^/]+)$ index.php?page=search_results&q=$1 [L,QSA]
+
+# 3. Do not rewrite if the file or folder actually exists (Images, CSS, JS)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 4. General Page Routing for Doctor UI
+# Maps /doctor/medical_screening to index.php?page=medical_screening
+RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]

@@ -1,0 +1,36 @@
+RewriteEngine On
+# Set to /PWD/ to match your folder at localhost/PWD/
+RewriteBase /PWD/
+
+# 0. EXEMPT PUBLIC FOLDER
+# This tells the server to stop processing rules if the URL starts with /public/
+# This fixes the broken hamburger menu/links in your PWD Community Portal
+RewriteRule ^public/ - [L]
+
+# 1. Force remove trailing slashes
+# This redirects /barangay_user/ to /barangay_user
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [L,R=301]
+
+# 2. Specific Rules for Search, View, and Print
+# Maps /search/name to index.php?page=search_results&q=name
+RewriteRule ^search/([^/]+)$ index.php?page=search_results&q=$1 [L,QSA]
+# Maps /view_search_pwd/123 to index.php?page=view_search_pwd&id=123
+RewriteRule ^view_search_pwd/([0-9]+)$ index.php?page=view_search_pwd&id=$1 [L,QSA]
+# Maps /print_id/123 to print_id.php?id=123
+RewriteRule ^print_id/([0-9]+)$ print_id.php?id=$1 [L,QSA]
+
+# 3. CRITICAL: Allow direct access to ONLY process/AJAX files
+# We exclude main pages so they are forced through index.php (preserving the sidebar)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} !/(support_center|program_distribution|barangay|barangay_user|PWD|official_list|monthly_report|information_hub)\.php [NC]
+RewriteRule ^(.+\.php)$ $1 [L]
+
+# 4. Skip existing files/folders
+# This prevents actual images, CSS, and JS files from being rewritten
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 5. General Page Routing
+# This sends slugs like /barangay_user to index.php?page=barangay_user
+RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]

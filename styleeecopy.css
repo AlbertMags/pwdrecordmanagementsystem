@@ -1,0 +1,780 @@
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: Arial, sans-serif; 
+}
+body { 
+    display: flex; 
+    min-height: 100vh; 
+    background-color: #f0f2f5; 
+}
+/*background: #0e82ff; */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Locked width */
+    height: 100vh;
+   
+background: linear-gradient(180deg, #063970 0%, #0e82ff 100%);
+background-attachment: fixed;
+    color: white; 
+    padding: 20px 0;
+    z-index: 1000;
+}
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 18px;
+    padding: 0 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 2px;
+}
+/* THE ALIGNMENT FIX */
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Forces everything to start at the left */
+    font-size: 16px;
+    white-space: nowrap;
+    border-left: 6px solid transparent; 
+    transition: background 0.2s;
+    width: 100%;
+}
+
+/* Icons all have the same width so text stays perfectly vertical */
+.sidebar ul li a i {
+    width: 25px;
+    margin-right: 10px; 
+    text-align: center;
+}
+
+/* THE ARROW FIX: Shoves the arrow to the right edge */
+#manageArrow {
+    margin-left: auto; 
+    font-size: 10px;
+}
+
+/* Active Highlight */
+.sidebar ul li.active > a {
+    background: rgba(255, 255, 255, 0.2); 
+    border-left: 6px solid #ffffff !important; 
+    font-weight: bold;
+}
+
+/* Submenu Padding */
+.submenu {
+    list-style: none;
+    padding: 0;
+    background: transparent !important;
+}
+.submenu li a {
+    padding-left: 47px; /* Indent sub-items to line up under Manage text */
+}
+
+.sidebar ul li a:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.content { 
+    flex-grow: 1; 
+    padding: 20px; 
+    margin-left: 260px;
+}
+/* Logout Button */
+.logout { 
+    margin-top: 20px; 
+}
+
+/* Login Container */
+.login-container {
+    background: white; 
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Button Styling */
+button {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+/* Make buttons side by side */
+.buttons {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    gap: 8px; /* Space between buttons */
+}
+
+/* Ensure buttons do not stretch full width */
+.buttons button {
+    width: auto;
+    min-width: 70px; /* Set a minimum width to keep consistency */
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+
+
+.barangay-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align everything to the left */
+    width: 100%; /* Ensure it spans full width */
+}
+
+.barangay-header h2 {
+    margin: 0;
+    text-align: left; /* Explicitly align text left */
+}
+.button-barangay {
+    margin-top: 5px;
+ background:#3498db;
+    text-align: center; /* Ensure text inside button is aligned left */
+    align-self: flex-start; /* Forces the button to align left */
+    width: 13%;
+}
+.button-barangay:hover {
+    background: #2980b9; 
+}
+.button-barangay_user{
+    margin-top: 5px;
+    background: #000000;
+    text-align: center; /* Ensure text inside button is aligned left */
+    align-self: flex-start; /* Forces the button to align left */
+    width: 16%;
+}
+.button-barangay_user:hover {
+    background: #218838;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scrolling inside modal */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;          /* Full width on small screens */
+    max-width: 900px;    /* Max width for large screens */
+    margin: 5% auto;     /* Top/bottom margin */
+    max-height: 90vh;    /* Maximum height of viewport */
+    overflow-y: auto;    /* Scroll if content exceeds height */
+    position: relative;
+}
+
+/* Form Labels and Inputs */
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+}
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="date"],
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Submit Button */
+.modal-content button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: rgb(0, 0, 0);
+}
+
+/* Custom Form Layout for 3 Lines */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    flex: 1;
+}
+
+.half-width {
+    flex: 1; /* This makes Password and Barangay equal width on the same line */
+}
+
+/* Password Wrapper Logic */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100% !important; /* Ensure it fills the container */
+    padding-right: 40px !important;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+    font-size: 18px;
+}
+
+/* Modal Styling Improvements */
+.modal-content h2 {
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-content label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+/* Match the Blue Button from your Image */
+.add-user-btn {
+    background: #007bff !important; /* Brighter Blue like the image */
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.add-user-btn:hover {
+    background: #0056b3 !important;
+}
+
+/* Center labels if you want the exact look of your image */
+.modal-content label {
+    text-align: center;
+    width: 100%;
+}
+
+.modal-content input, .modal-content select {
+    text-align: center; /* Makes the typed text/placeholder centered like the image */
+}
+
+
+
+
+
+/* pwd modal */
+
+
+        
+        .pwd-modal-backdrop {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 999; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); 
+            padding: 40px;
+        }
+
+        /* Form container within modal */
+        .pwd-form-container {
+            background-color: #fefefe;
+            margin: 10px auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 90%; 
+            max-width: 900px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* Close button */
+        .pwd-form-container .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .pwd-form-container .close:hover,
+        .pwd-form-container .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form layout adjustments */
+        .form-group-row {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .four-columns {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+        .three-columns {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        .five-columns {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .field-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .field-wrapper label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        .field-wrapper input[type="text"],
+        .field-wrapper input[type="date"],
+        .field-wrapper input[type="email"],
+        .field-wrapper select,
+        .field-wrapper textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .field-wrapper textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .gemini-feature-button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .gemini-feature-button:hover {
+            background-color: #357ae8;
+        }
+        
+        
+        .view-btn, .delete-btn, .approve-btn, .accept-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 14px;
+            text-decoration: none; /* For the <a> tag (view-btn) */
+            display: inline-block;
+        }
+       
+        .filters {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .filters select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+
+
+
+
+/* Grid layout for DOH-style form */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.form-section {
+  margin-bottom: 15px;
+}
+
+
+
+.dropdown {
+    display: none;
+    list-style: none;
+    padding-left: 15px;
+}
+.dropdown li {
+    margin-top: 5px;
+}
+.dropdown li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    display: block;
+    border-radius: 5px;
+}
+.dropdown li a:hover {
+    background: #0056b3;
+}
+/* Make all tables uniform */
+table {
+    width:100%; /* Adjust width as needed */
+    border-collapse: collapse;
+    margin: 20px auto; /* Centering */
+    font-size: 17px; /* Make text slightly smaller */
+}
+
+/* Table header styles */
+th {
+    background-color: #02b7cf;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 19px;
+}
+
+/* Table row styles */   
+td {
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+
+/* Ensure action buttons are in one line */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+   
+}
+.view-btn{
+    background: #dcbd20;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+/* Edit Button */
+.edit-btn {
+    background: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.edit-btn:hover {
+    background: #218838;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+/* PWD Information Container */
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Heading */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Profile Picture */
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-picture img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    object-fit: cover;
+}
+
+/* Information Styling */
+p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+}
+
+p strong {
+    color: #222;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Manage Dropdown */
+.manage-toggle {
+    display: flex;
+    justify-content: space-between; /* Keeps Manage left & arrow right */
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.manage-toggle:hover {
+    background: #0056b3;
+}
+
+.manage-text {
+    flex-grow: 1; /* Pushes the arrow away from Manage */
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
+
+/* Dashboard container */
+.dashboard-container {
+    padding: 10px;
+}
+
+.info-boxes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.info-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 280px; /* Adjusted width to fit four boxes in a row */
+    padding: 30px; /* Reduced padding to fit the layout */
+      background:#07a0e2;
+
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.info-box:hover {
+      background:#07a0e2;
+
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.icon {
+    font-size: 35px; /* Adjusted icon size */
+    opacity: 0.8;
+}
+
+/* Notifications */
+.notifications {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+
+/* samay  PWDD  */
+
+.btn {
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.nav-tabs .nav-link {
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+
+
+/* Charts Container for Graphical Reports */
+.chart-container {
+    width: 300px;
+    height: 330px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 10px;
+}
+
+/* Optional: If you want to wrap all charts in a flex layout */
+.charts-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.charts-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+
+
