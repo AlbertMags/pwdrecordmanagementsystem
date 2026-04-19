@@ -1,8 +1,8 @@
 ConnectAbilities: Centralized Record Management System for PWDs
 
 📌 Project Overview
-ConnectAbilities is a centralized web-based platform designed to streamline the registration, management, and tracking of information for Persons with Disabilities (PWDs). 
-Developed as a capstone project for Central Philippine State University (CPSU), the system aims to replace manual record-keeping with a secure, digital solution that ensures
+ConnectAbilities is a centralized web-based platform designed to streamline the registration, management, and tracking of information for Persons with Disabilities (PWDs) at E.B. Magalona Negros Occidental. 
+Developed as a capstone project for Central Philippine State University-Victorias Campus, the system aims to replace manual record-keeping with a secure, digital solution that ensures
 data accuracy and accessibility for local government units.
 
 
